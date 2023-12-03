@@ -1,8 +1,11 @@
-// Import necessary discord.js classes
-import { Events } from 'discord.js';
+const fs = require('node:fs');
+const path = require('node:path');
+const { Events } = require('discord.js');
+
 
 // Define the commandHandler function and accept parameters
 function commandHandler(client, foldersPath) {
+    const commandFolders = fs.readdirSync(foldersPath);
     for (const folder of commandFolders) {
         const commandsPath = path.join(foldersPath, folder);
         const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
@@ -17,12 +20,9 @@ function commandHandler(client, foldersPath) {
             }
         }
     }
-
     client.on(Events.InteractionCreate, async interaction => {
         if (!interaction.isChatInputCommand()) return;
-
         const command = client.commands.get(interaction.commandName);
-
         if (!command) {
             console.error(`No command matching ${interaction.commandName} was found.`);
             return;
@@ -40,4 +40,4 @@ function commandHandler(client, foldersPath) {
     });
 }
 
-export { commandHandler };
+module.exports = { commandHandler };
