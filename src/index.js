@@ -1,16 +1,19 @@
 // Require the necessary discord.js classes
-const { Client, Events, GatewayIntentBits } = require('discord.js');
+const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('../config/config.json');
+const fs = require('node:fs');
+const path = require('node:path');
+import { commandHandler } from './commands/controller/commandHandler';
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+client.commands = new Collection();
 
-// When the client is ready, run this code (only once).
-// The distinction between `client: Client<boolean>` and `readyClient: Client<true>` is important for TypeScript developers.
-// It makes some properties non-nullable.
-client.once(Events.ClientReady, readyClient => {
-	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
-});
+const foldersPath = path.join(__dirname, 'commands');
+const commandFolders = fs.readdirSync(foldersPath);
 
-// Log in to Discord with your client's token
+// Call commandHandler and pass the necessary parameters
+commandHandler(client, foldersPath);
+
+// Log in to Discord with your app's token
 client.login(token);
