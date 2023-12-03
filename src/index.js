@@ -20,7 +20,7 @@ const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'
 // Call commandHandler and commandEvent
 commandHandler(client, foldersPath);
 commandEvent(eventFiles, eventsPath, client);
-
+//It Deploys commands
 deployCommands();
 
 
