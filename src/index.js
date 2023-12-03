@@ -2,7 +2,8 @@
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { token } = require('../config/config.json');
 const { commandHandler } = require('./handler/commandHandler');
-const { coomandEvent, commandEvent } = require('./handler/commandEvent');
+const { commandEvent } = require('./handler/commandEvent');
+const { deployCommands } = require('./registering/deploy-commands');
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -16,9 +17,12 @@ const eventsPath = path.join(__dirname, 'events');
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
 
-// Call commandHandler and pass the necessary parameters
+// Call commandHandler and commandEvent
 commandHandler(client, foldersPath);
 commandEvent(eventFiles, eventsPath, client);
+
+deployCommands();
+
 
 // Log in to Discord with your app's token
 client.login(token);

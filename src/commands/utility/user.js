@@ -5,8 +5,25 @@ module.exports = {
 		.setName('user')
 		.setDescription('Provides information about the user.'),
 	async execute(interaction) {
-		// interaction.user is the object representing the User who ran the command
-		// interaction.member is the GuildMember object, which represents the user in the specific guild
-		await interaction.reply(`This command was run by ${interaction.user.username}, who joined on ${interaction.member.joinedAt}.`);
+		// Obtener información del miembro
+		const member = interaction.member;
+
+		// Construir el embed
+		const embed = {
+			title: 'User Information',
+			color: parseInt('0099ff', 16),
+			description: '',
+			fields: [
+				{ name: 'Username', value: member.user.username, inline: true },
+				{ name: 'Discriminator', value: `#${member.user.discriminator}`, inline: true },
+				{ name: 'User ID', value: member.user.id },
+				{ name: 'Joined Server', value: member.joinedAt.toLocaleDateString(), inline: true },
+				{ name: 'Joined Discord', value: member.user.createdAt.toLocaleDateString(), inline: true },
+				{ name: 'Roles', value: member.roles.cache.map(role => role.name).join(', ') || 'No roles' }
+			]
+		};
+
+		// Enviar el embed al canal de la interacción
+		await interaction.channel.send({ embeds: [embed] });
 	},
 };
