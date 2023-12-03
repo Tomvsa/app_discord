@@ -3,6 +3,9 @@ const { clientId, guildId, token } = require('../../config/config.json');
 const fs = require('node:fs');
 const path = require('node:path');
 
+/**
+ * Read the files and deploys commands
+ */
 function deployCommands(){
 	const commands = [];
 	// Grab all the command folders from the commands directory you created earlier

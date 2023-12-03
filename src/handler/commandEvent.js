@@ -2,7 +2,7 @@ const {Event, Client} = require('discord.js');
 const path = require('node:path');
 
 /**
- * 
+ * reads the files and executes the events
  * @param {*} filePath 
  * @param {*} event 
  */
